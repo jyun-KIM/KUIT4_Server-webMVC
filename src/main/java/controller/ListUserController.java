@@ -17,10 +17,17 @@ public class ListUserController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Collection<User> users = MemoryUserRepository.getInstance().findAll();
-        req.setAttribute("users", users);
 
-        RequestDispatcher rd = req.getRequestDispatcher("/user/list.jsp");
-        rd.forward(req,resp);
+        if(req.getSession().getAttribute("user") != null){
+            Collection<User> users = MemoryUserRepository.getInstance().findAll();
+            req.setAttribute("users", users);
+
+            RequestDispatcher rd = req.getRequestDispatcher("/user/list.jsp");
+            rd.forward(req,resp);
+        }
+        else{
+            resp.sendRedirect("/");
+            System.out.println("유저 리스트 로딩 실패");
+        }
     }
 }

@@ -1,7 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="jwp.model.User" %>
-<%@ page import="java.util.Collection" %>
 
 <!doctype html>
 <html lang="ko">
@@ -16,7 +14,6 @@
                 <th class="col-md-3">이름</th>
                 <th class="col-md-3">이메일</th>
                 <th class="col-md-3">#</th>
-
             </tr>
             </thead>
             <tbody>
