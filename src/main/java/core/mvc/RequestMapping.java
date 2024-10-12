@@ -7,13 +7,9 @@ import java.util.Map;
 
 public class RequestMapping {
 
-    private Map<String, Controller> controllers = new HashMap<>();
+    private static final Map<String, Controller> controllers = new HashMap<>();
 
-    public RequestMapping() {
-        initControllers();
-    }
-
-    private void initControllers() {
+    static {
         controllers.put("/", new HomeController());
         controllers.put("/user/signup", new CreateUserController());
         controllers.put("/user/list", new ListUserController());
