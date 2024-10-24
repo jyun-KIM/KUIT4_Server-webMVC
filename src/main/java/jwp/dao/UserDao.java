@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserDao {
 
-    private final JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    private final JdbcTemplate<User> jdbcTemplate = new JdbcTemplate();
 
     public void insert(User user) throws SQLException {
         String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
