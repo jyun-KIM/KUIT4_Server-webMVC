@@ -53,7 +53,8 @@ public class JdbcTemplate<T> {
         ResultSet rs = null;
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-
+            pstmtSetter.setParameters(pstmt);
+            pstmt.executeUpdate();
             rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 keyHolder.setId((int) rs.getLong(1));

@@ -20,7 +20,7 @@ public class QuestionDao {
             pstmt.setString(1, question.getWriter());
             pstmt.setString(2, question.getTitle());
             pstmt.setString(3, question.getContents());
-            pstmt.setObject(4, question.getCountOfAnswer());
+            pstmt.setObject(4, question.getCreatedDate());
         };
         jdbcTemplate.update(sql, pstmtSetter, keyHolder);
         return findByQuestionId(keyHolder.getId());
@@ -59,7 +59,7 @@ public class QuestionDao {
 
     public Question findByQuestionId(int questionId) throws SQLException {
         String sql = "SELECT questionId, writer, title, contents, createdDate, countOfAnswer " +
-                "FROM QUESTIONS WHERE userId=?";
+                "FROM QUESTIONS WHERE questionId=?";
 
         PreparedStatementSetter pstmtSetter = pstmt -> {
             pstmt.setInt(1, questionId);
