@@ -36,7 +36,7 @@ public class JdbcTemplate<T> {
         T object = null;
 
         try (Connection conn = ConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);){
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
             pstmtSetter.setParameters(pstmt);
             rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -47,5 +47,20 @@ public class JdbcTemplate<T> {
                 rs.close();
         }
         return object;
+    }
+
+    public void update(String sql, PreparedStatementSetter pstmtSetter, KeyHolder keyHolder) throws SQLException {
+        ResultSet rs = null;
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                keyHolder.setId((int) rs.getLong(1));
+            }
+        } finally {
+            if (rs != null)
+                rs.close();
+        }
     }
 }
