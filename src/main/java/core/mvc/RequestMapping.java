@@ -23,9 +23,10 @@ public class RequestMapping {
         controllers.put("/user/loginFailed", new ForwardController("/user/loginFailed.jsp"));
 
         controllers.put("/qna/form", new CreateQuestionFormController());
+        controllers.put("/qna/updateForm", new UpdateQuestionFormController());
+        controllers.put("/qna/update", new UpdateQuestionController());
         controllers.put("/qna/create", new CreateQuestionController());
         controllers.put("/qna/show", new ShowQuestionController());
-
     }
 
     public Controller getController(String url) {

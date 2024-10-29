@@ -82,6 +82,7 @@ public class Question {
     }
 
     public boolean isSameUser(User user) {
+        if (user == null) return false;
         return writer.equals(user.getUserId());
     }
 }
