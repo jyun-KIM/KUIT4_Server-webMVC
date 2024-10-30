@@ -15,38 +15,39 @@
         <article class="article">
             <div class="article-header">
                 <div class="article-header-thumb">
-                    <img src="/img/picture.jpeg" class="article-author-thumb" alt="">
+                    <img src="../img/picture.jpeg" class="article-author-thumb" alt="">
                 </div>
                 <div class="article-header-text">
                     <span class="article-author-name">${question.writer}</span>
                     <span class="article-header-time">${question.createdDate}</span>
                     <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${question.createdDate}"/>
                     <i class="icon-link"></i>
-                    </a>
                 </div>
             </div>
             <div class="article-doc">
-                ${question.contents}
+                <p>${question.contents}</p>
             </div>
+
             <div class="article-util">
                 <ul class="article-util-list">
-
                     <c:if test="${not empty sessionScope.user}">
-                        <li>
-                            <a class="link-modify-article"
-                               href="/qna/updateForm?questionId=${question.questionId}">수정</a>
-                        </li>
+                        <c:if test="${sessionScope.user.name == question.writer}">
+                            <li>
+                                <a class="link-modify-article"
+                                   href="/qna/form?questionId=${question.questionId}">수정</a>
+                            </li>
+                            <li>
+                                <a class="link-modify-article"
+                                   href="/qna/delete?questionId=${question.questionId}">삭제</a>
+                            </li>
+                        </c:if>
                     </c:if>
-                    <li>
-                        <a class="link-modify-article" href="/qna/delete?questionId=${question.questionId}">삭제</a>
-                    </li>
                     <li>
                         <a class="link-modify-article" href="/">목록</a>
                     </li>
                 </ul>
             </div>
         </article>
-
 
         <div class="qna-comment">
             <div class="qna-comment-kuit">
@@ -86,16 +87,16 @@
                         </article>
                     </c:forEach>
                     <div class="answerWrite">
-
                         <form class="submit-write">
                             <input type="hidden" name="questionId" value="${question.questionId}">
                             <div class="form-group col-lg-4" style="padding-top:10px;">
-                                <input class="form-control" id="writer" name="writer" placeholder="이름">
+                                <input class="form-control" id="writer" name="writer" placeholder="이름"
+                                       value="${sessionScope.user.name}" readonly>
                             </div>
                             <div class="form-group col-lg-12">
                                 <textarea name="contents" id="contents" class="form-control" placeholder=""></textarea>
                             </div>
-                            <input class="btn btn-success pull-right" type="submit" value="답변하기"/>
+                            <input class="btn btn-success pull-right" type="submit" value="답변하기">
                             <div class="clearfix"/>
                         </form>
                     </div>
@@ -104,8 +105,6 @@
             </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 
 <script type="text/template" id="answerTemplate">
@@ -139,6 +138,6 @@
 </script>
 <script src="/js/jquery-2.2.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/scripts.js"></script>
+<script src="/js/scripts.js"></script>
 </body>
 </html>
