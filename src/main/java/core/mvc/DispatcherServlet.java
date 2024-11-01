@@ -26,7 +26,7 @@ public class DispatcherServlet extends HttpServlet {
         Controller controller = requestMapping.getController(url);
         try {
             View view = controller.execute(req, resp);
-            if (view != null) {
+            if (view == null) {
                 return;
             }
             view.render(req, resp);
@@ -34,14 +34,5 @@ public class DispatcherServlet extends HttpServlet {
             System.out.println(e.getMessage());
             throw new ServletException(e.getMessage());
         }
-    }
-
-    private void move(String viewName, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (viewName.startsWith(REDIRECT_PREFIX)) {
-            resp.sendRedirect(viewName.substring(REDIRECT_PREFIX.length()));
-            return;
-        }
-        RequestDispatcher rd = req.getRequestDispatcher(viewName);
-        rd.forward(req, resp);
     }
 }
