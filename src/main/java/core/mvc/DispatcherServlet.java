@@ -1,5 +1,7 @@
 package core.mvc;
 
+import core.mvc.view.View;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,20 +16,20 @@ public class DispatcherServlet extends HttpServlet {
     private static final String REDIRECT_PREFIX = "redirect:";
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         requestMapping = new RequestMapping();
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         String url = req.getRequestURI();
         Controller controller = requestMapping.getController(url);
         try {
-            String viewName = controller.execute(req, resp);
-            if (viewName == null) {
+            View view = controller.execute(req, resp);
+            if (view != null) {
                 return;
             }
-            move(viewName, req, resp);
+            view.render(req, resp);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new ServletException(e.getMessage());
