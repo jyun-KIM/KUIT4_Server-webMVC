@@ -2,13 +2,11 @@ package core.jdbc;
 
 import jwp.model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// JdbeTemplate은 JDBC를 사용한 데이텋베이스 작업을 쉽게 처리할 수 있도록 도와준다.
 public class JdbcTemplate<T> {
     public void update(String sql, PreparedStatementSetter pstmtSetter) throws SQLException {
 
@@ -16,6 +14,21 @@ public class JdbcTemplate<T> {
             pstmtSetter.setParameters(pstmt);
 
             pstmt.executeUpdate(); //db에 쿼리문 실행 > db에 쿼리문 저장
+        }
+    }
+
+    public void update(String sql, PreparedStatementSetter pstmtSetter, KeyHolder holder) {
+        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmtSetter.setParameters(pstmt);
+            pstmt.executeUpdate();
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                holder.setId((int) rs.getLong(1));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

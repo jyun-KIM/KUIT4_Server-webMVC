@@ -28,9 +28,6 @@ public class UserDao {
         };
         jdbcTemplate.update(sql, pstmtSetter);
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-
     }
 
     public void update(User user) throws SQLException {
@@ -69,7 +66,7 @@ public class UserDao {
             pstmt.setString(1, userId);
         };
 
-        RowMapper rowMapper = rs -> new User(rs.getString("userId"),
+        RowMapper<User> rowMapper = rs -> new User(rs.getString("userId"),
                 rs.getString("password"),
                 rs.getString("name"),
                 rs.getString("email"));
