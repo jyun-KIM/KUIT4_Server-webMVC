@@ -13,8 +13,8 @@
 
         <form name="sign-up" method="post" action="/user/signup">
             <div class="form-floating">
-                <input type="text" class="form-control" id="userId" name="userId" placeholder="Id">
-                <label for="userId">User Id</label>
+                <input type="text" class="form-control" value="${sessionScope.user.userId}" id="writer" name="writer" placeholder="글쓴이" readonly/>
+                <label for="writer">Writer</label>
             </div>
             <div class="form-floating">
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
