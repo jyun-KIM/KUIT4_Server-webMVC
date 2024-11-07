@@ -44,6 +44,19 @@ public class QuestionDao {
         return findByQuestionId(questionId);
     }
 
+    public void update(Question question) throws SQLException {
+        String sql = "UPDATE QUESTIONS SET title=?, contests=?, createdDate=?, countOfAnswer=? WHERE questionId=?";
+
+        PreparedStatementSetter pstmtSetter = pstmt -> {
+            pstmt.setString(1, question.getTitle());
+            pstmt.setString(2, question.getContents());
+            pstmt.setDate(3, question.getCreatedDate());
+            pstmt.setInt(4, question.getCountOfAnswer());
+            pstmt.setInt(5, question.getQuestionId());
+        };
+        jdbcTemplate.update(sql, pstmtSetter);
+    }
+
     public Question findByQuestionId(int questionId) throws SQLException {
         String sql = "SELECT * FROM QUESTIONS WHERE questionId = ?";
 
